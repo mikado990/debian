@@ -14,20 +14,26 @@ apt update
 apt upgrade -y
 
 # Making .config and Moving config files and background to Pictures
-#cd $builddir
-#mkdir -p /home/$username/.config
-#mkdir -p /home/$username/Pictures
-#mkdir -p /home/$username/Pictures/backgrounds
+cd $builddir
+mkdir -p /home/$username/.config
+mkdir -p /home/$username/Pictures
+mkdir -p /home/$username/Downloads
+mkdir -p /home/$username/Videos
+mkdir -p /home/$username/Pictures/backgrounds
+cp bg.jpg /home/$username/Pictures/backgrounds/
 #cp -R dotconfig/* /home/$username/.config/
 #mv user-dirs.dirs /home/$username/.config
-#chown -R $username:$username /home/$username
+chown -R $username:$username /home/$username
+
+# Build dependencies for DWM and onther
+apt install tcc make
 
 # Installing Essential Programs 
-apt install feh kitty rofi picom lxpolkit x11-xserver-utils unzip pulseaudio pavucontrol build-essential -y
+apt install feh kitty x11-xserver-utils unzip -y
+
 # Installing Other less important Programs
-apt install psmisc vim lxappearance lightdm -y
+apt install firefox-esr lightdm -y
 
 # Enable graphical login and change target from CLI to GUI
-systemctl enable lightdm
-systemctl set-default graphical.target
-
+#systemctl enable lightdm
+#systemctl set-default graphical.target

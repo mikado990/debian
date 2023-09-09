@@ -15,7 +15,10 @@ apt upgrade -y
 
 # Making .config and Moving config files and background to Pictures
 cd $builddir
+mkdir -p /home/$username/.cache
 mkdir -p /home/$username/.config
+mkdir -p /home/$username/.local
+mkdir -p /home/$username/.local/src
 mkdir -p /home/$username/Pictures
 mkdir -p /home/$username/Downloads
 mkdir -p /home/$username/Videos
@@ -26,13 +29,29 @@ cp bg.jpg /home/$username/Pictures/backgrounds/
 chown -R $username:$username /home/$username
 
 # Build dependencies for DWM and onther
-apt install tcc make
+apt install build-essential libx11-dev libxft-dev libxinerama-dev -y
 
 # Installing Essential Programs 
-apt install feh kitty x11-xserver-utils unzip -y
+apt install neovim dmenu dunst feh kitty x11-xserver-utils wget unzip -y
 
 # Installing Other less important Programs
 apt install firefox-esr lightdm -y
+
+# Clone DWM and install
+cd /home/$username/.local/src
+git clone https://git.suckless.org/dwm
+cd /home/$username/.local/src/dwm
+make install
+
+# Clone ST no install yet
+cd /home/$username/.local/src
+git clone https://git.suckless.org/st
+cd /home/$username/.local/src/st
+make install
+
+# Add DWM xsession
+cd $builddir
+mv dwm.desktop /usr/share/xsessions/
 
 # Enable graphical login and change target from CLI to GUI
 #systemctl enable lightdm

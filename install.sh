@@ -53,6 +53,9 @@ make install
 cd $builddir
 mv dwm.desktop /usr/share/xsessions/
 
+# Fix long shutdowns
+sed -i 's/#DefaultTimeoutStopSec.*/DefaultTimeoutStopSec=15s/' /etc/systemd/system.conf
+
 # Enable graphical login and change target from CLI to GUI
 #systemctl enable lightdm
 #systemctl set-default graphical.target

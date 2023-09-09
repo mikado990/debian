@@ -7,7 +7,7 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 username=$(id -u -n 1000)
-builddir=$(pwd)
+builddir=$(/home/$username)
 
 # Update packages list and update system
 apt update
@@ -43,18 +43,22 @@ git clone https://git.suckless.org/dwm
 cd /home/$username/.local/src/dwm
 make install
 
-# Clone ST no install yet
+# Clone ST and install
 cd /home/$username/.local/src
 git clone https://git.suckless.org/st
 cd /home/$username/.local/src/st
 make install
 
 # Add DWM xsession
-cd $builddir
-mv dwm.desktop /usr/share/xsessions/
+cd $builddir/debian
+cp dwm.desktop /usr/share/xsessions/
 
 # Fix long shutdowns
 sed -i 's/#DefaultTimeoutStopSec.*/DefaultTimeoutStopSec=15s/' /etc/systemd/system.conf
+
+# Set LightDM to auto start DWM
+sed -i 's/#autologin-user=.*/autologin-user=$username/' /etc/lightdm/lightdm.conf
+sed -i 's/#user-session=.*/user-session=dwm/' /etc/lightdm/lightdm.conf
 
 # Enable graphical login and change target from CLI to GUI
 #systemctl enable lightdm

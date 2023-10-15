@@ -9,6 +9,9 @@ fi
 username=$(id -u -n 1000)
 builddir=$(/home/$username)
 
+# Clone repo with firefox user.js file
+git clone https://codeberg.org/Narsil/user.js/src/branch/main/desktop
+
 # Update packages list and update system
 apt update
 apt upgrade -y
@@ -32,10 +35,10 @@ chown -R $username:$username /home/$username
 apt install build-essential libx11-dev libxft-dev libxinerama-dev -y
 
 # Installing Essential Programs 
-apt install neovim dmenu dunst feh kitty x11-xserver-utils wget unzip -y
+apt install neovim dmenu dunst feh x11-xserver-utils wget unzip -y
 
 # Installing Other less important Programs
-apt install firefox-esr lightdm -y
+apt install firefox-esr lightdm mpv newsboat -y
 
 # Clone DWM and install
 cd /home/$username/.local/src
